@@ -1,3 +1,23 @@
+### Version 0.17.1 - October 2015
+
+This version is binary compatible with 0CE 0.17.
+
+* Mingw64 (5.2.0) and Mingw32 (4.8.1, 4.9.3) fixes
+
+* VS2015 fix
+
+* Fix for static building on MSVC
+
+* New oce-win-bundle handling
+
+* ppc64le fix
+
+* Build OCE and run tests on appveyor.com service.
+
+Users who contributed to this release:
+  Denis Barbier, Benjamin Bilher, Sergio L. Pascual, Thomas Paviot,
+  QbProg, Stinkfist0, Jeremy Wright
+
 ### Version 0.17 - March 2015
 
 This version is not binary compatible with OCE 0.16, OCE_ABI_SOVERSION
