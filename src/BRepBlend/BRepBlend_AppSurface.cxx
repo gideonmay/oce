@@ -125,7 +125,7 @@ Standard_Real BRepBlend_AppSurface::TolCurveOnSurf(const Standard_Integer Index)
   return approx.TolCurveOnSurf(Index);
 }
 
-inline void  BRepBlend_AppSurface::TolReached (Standard_Real& Tol3d,
+void  BRepBlend_AppSurface::TolReached (Standard_Real& Tol3d,
 					 Standard_Real& Tol2d) const
 {
   Tol3d = approx.MaxErrorOnSurf();
