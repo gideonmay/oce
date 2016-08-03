@@ -427,6 +427,7 @@ t TKXDEIGES
 t TKXDESTEP
 t TKXSBase
 t TKXmlXCAF
+t TKWFOBJ
 p BOPTest
 p BRepTest
 p DBRep

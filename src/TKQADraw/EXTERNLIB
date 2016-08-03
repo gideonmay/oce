@@ -35,6 +35,7 @@ TKSTL
 TKVoxel
 TKShapeSchema
 TKPShape
+TKWFOBJ
 CSF_gdi32
 CSF_advapi32
 CSF_user32
