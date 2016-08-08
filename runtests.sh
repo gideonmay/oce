@@ -30,9 +30,6 @@ cmake -DOCE_ENABLE_DEB_FLAG:BOOL=OFF \
 echo ""
 echo "Timestamp" && date
 if test "$RUN_TESTS" = true; then
-    # travis-ci truncates when there are more than 10,000 lines of output.
-    # Builds generate around 9,000 lines of output, trim them to see test
-    # results.
     make -j8 | grep Built
 
     # Run OCE tests

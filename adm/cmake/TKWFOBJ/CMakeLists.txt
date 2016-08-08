@@ -2,9 +2,6 @@ set(TOOLKIT TKWFOBJ)
 
 set(TOOLKIT_MODULES
 	WfObjMesh
-	WfObjAPI
-	WfObjTransfer
-	RWWfObj
 )
 set(TOOLKIT_DEPENDS
 	TKernel
