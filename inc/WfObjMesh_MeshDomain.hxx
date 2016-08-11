@@ -79,12 +79,7 @@ public:
 
   DEFINE_STANDARD_RTTI(WfObjMesh_MeshDomain)
 
-protected:
-
-
-
-
-private: 
+private:
 
 
   Standard_Real deflection;
@@ -98,9 +93,5 @@ private:
 
 
 #include <WfObjMesh_MeshDomain.lxx>
-
-
-
-
 
 #endif // _WfObjMesh_MeshDomain_HeaderFile
