@@ -14,11 +14,13 @@
 #include <Standard_Integer.hxx>
 #include <TColgp_SequenceOfXYZ.hxx>
 #include <WfObjMesh_SequenceOfMeshTriangle.hxx>
+#include <WfObjMesh_SequenceOfMeshPolygon.hxx>
 #include <MMgt_TShared.hxx>
 #include <Standard_Boolean.hxx>
 class Standard_NegativeValue;
 class Standard_NullValue;
 class WfObjMesh_SequenceOfMeshTriangle;
+class WfObjMesh_SequenceOfMeshPolygon;
 class TColgp_SequenceOfXYZ;
 
 
@@ -48,6 +50,8 @@ public:
   //! triangle.  Returns  the  range of  the triangle in
   //! the current domain.
   Standard_EXPORT virtual   Standard_Integer AddTriangle (const Standard_Integer V1, const Standard_Integer V2, const Standard_Integer V3, const Standard_Real Xn, const Standard_Real Yn, const Standard_Real Zn) ;
+
+  Standard_EXPORT virtual   Standard_Integer AddPolygon (const Standard_Integer VertexCount, const Standard_Integer * VertexList, const Standard_Real Xn, const Standard_Real Yn, const Standard_Real Zn) ;
   
   //! Returns the range of the vertex in the current
   //! domain.
@@ -62,19 +66,23 @@ public:
   
   //! Number of triangles in the mesh.
     virtual   Standard_Integer NbTriangles()  const;
-  
-  //! Number of vertices in the mesh.
+
+    //! Number of polygons in the mesh.
+    virtual   Standard_Integer NbPolygons()  const;
+
+    //! Number of vertices in the mesh.
     virtual   Standard_Integer NbVertices()  const;
-  
+
   //! Returns the set of triangles of the  current mesh domain
     virtual  const  WfObjMesh_SequenceOfMeshTriangle& Triangles()  const;
-  
-  //! Returns  the coordinates   of the  vertices of the
+
+    //! Returns the set of polygons of the  current mesh domain
+    virtual  const  WfObjMesh_SequenceOfMeshPolygon& Polygons()  const;
+
+    //! Returns  the coordinates   of the  vertices of the
   //! mesh domain   of range <DomainIndex>.   {XV1, YV1,
   //! ZV1, XV2, YV2, ZV2, XV3,.....}
     virtual  const  TColgp_SequenceOfXYZ& Vertices()  const;
-
-
 
 
   DEFINE_STANDARD_RTTI(WfObjMesh_MeshDomain)
@@ -85,8 +93,10 @@ private:
   Standard_Real deflection;
   Standard_Integer nbVertices;
   Standard_Integer nbTriangles;
+    Standard_Integer nbPolygons;
   TColgp_SequenceOfXYZ vertexCoords;
   WfObjMesh_SequenceOfMeshTriangle trianglesVertex;
+    WfObjMesh_SequenceOfMeshPolygon polygonsVertex;
 
 
 };

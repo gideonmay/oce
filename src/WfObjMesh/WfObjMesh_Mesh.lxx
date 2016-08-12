@@ -43,6 +43,15 @@ inline Standard_Integer WfObjMesh_Mesh::NbTriangles() const
 {return nbTriangles;}
 
 //=======================================================================
+//function : NbPolygons
+//design   :
+//warning  :
+//=======================================================================
+
+inline Standard_Integer WfObjMesh_Mesh::NbPolygons() const
+{return nbPolygons;}
+
+//=======================================================================
 //function : NbVertices
 //design   : 
 //warning  : 

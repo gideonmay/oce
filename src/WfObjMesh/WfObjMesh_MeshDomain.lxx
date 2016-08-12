@@ -35,6 +35,15 @@ inline Standard_Integer WfObjMesh_MeshDomain::NbTriangles() const
 { return  nbTriangles; }
 
 //=======================================================================
+//function : NbPolygons
+//design   :
+//warning  :
+//=======================================================================
+
+inline Standard_Integer WfObjMesh_MeshDomain::NbPolygons() const
+{ return  nbPolygons; }
+
+//=======================================================================
 //function : NbVertices
 //design   : 
 //warning  : 
@@ -51,6 +60,15 @@ inline Standard_Integer WfObjMesh_MeshDomain::NbVertices() const
 
 inline const WfObjMesh_SequenceOfMeshTriangle& WfObjMesh_MeshDomain::Triangles() const 
 { return trianglesVertex; }
+
+//=======================================================================
+//function : Polygons
+//design   :
+//warning  :
+//=======================================================================
+
+inline const WfObjMesh_SequenceOfMeshPolygon& WfObjMesh_MeshDomain::Polygons() const
+{ return polygonsVertex; }
 
 //=======================================================================
 //function : Vertices

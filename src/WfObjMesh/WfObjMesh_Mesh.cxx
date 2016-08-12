@@ -28,7 +28,7 @@
 
 
 WfObjMesh_Mesh::WfObjMesh_Mesh()
-: nbTriangles (0), nbVertices (0), xyzmax (-(Precision::Infinite()), -(Precision::Infinite()), -(Precision::Infinite())), xyzmin (Precision::Infinite(), Precision::Infinite(), Precision::Infinite())
+: nbTriangles (0), nbVertices (0), nbPolygons (0), xyzmax (-(Precision::Infinite()), -(Precision::Infinite()), -(Precision::Infinite())), xyzmin (Precision::Infinite(), Precision::Infinite(), Precision::Infinite())
 { }
 
 //=======================================================================
@@ -148,6 +148,15 @@ Standard_Integer WfObjMesh_Mesh::NbTriangles(const Standard_Integer DomainIndex)
 { return (domains.Value(DomainIndex))->NbTriangles ();}
 
 //=======================================================================
+//function : NbPolygons
+//design   :
+//warning  :
+//=======================================================================
+
+Standard_Integer WfObjMesh_Mesh::NbPolygons(const Standard_Integer DomainIndex) const
+{ return (domains.Value(DomainIndex))->NbPolygons ();}
+
+//=======================================================================
 //function : NbVertices
 //design   : 
 //warning  : 
@@ -164,6 +173,16 @@ Standard_Integer WfObjMesh_Mesh::NbVertices(const Standard_Integer DomainIndex) 
 
 const WfObjMesh_SequenceOfMeshTriangle& WfObjMesh_Mesh::Triangles(const Standard_Integer DomainIndex) const 
 { return (domains.Value (DomainIndex))->Triangles ();}
+
+//=======================================================================
+//function : Polygons
+//design   :
+//warning  :
+//=======================================================================
+
+const WfObjMesh_SequenceOfMeshPolygon& WfObjMesh_Mesh::Polygons(const Standard_Integer DomainIndex) const
+{ return (domains.Value (DomainIndex))->Polygons ();}
+
 
 //=======================================================================
 //function : Vertices

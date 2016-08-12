@@ -31,62 +31,73 @@
 
 WfObjAPI_Reader::WfObjAPI_Reader() {}
 
-void WfObjAPI_Reader::Read(TopoDS_Shape& aShape, const Standard_CString aFileName) 
-{
-  OSD_Path aFile(aFileName);
-  
-  Handle(WfObjMesh_Mesh) aSTLMesh = RWWfObj::ReadFile(aFile);
-  Standard_Integer NumberDomains = aSTLMesh->NbDomains();
-  Standard_Integer iND;
-  gp_XYZ p1, p2, p3;
-  TopoDS_Vertex Vertex1, Vertex2, Vertex3;
-  TopoDS_Face AktFace;
-  TopoDS_Wire AktWire;
-  BRepBuilderAPI_Sewing aSewingTool;
-  Standard_Real x1, y1, z1;
-  Standard_Real x2, y2, z2;
-  Standard_Real x3, y3, z3;
-  
-  aSewingTool.Init(1.0e-06,Standard_True);
-  
-  TopoDS_Compound aComp;
-  BRep_Builder BuildTool;
-  BuildTool.MakeCompound( aComp );
+void WfObjAPI_Reader::Read(TopoDS_Shape &aShape, const Standard_CString aFileName) {
+    OSD_Path aFile(aFileName);
 
-  WfObjMesh_MeshExplorer aMExp (aSTLMesh);
-  
-  for (iND=1;iND<=NumberDomains;iND++) 
-  {
-    for (aMExp.InitTriangle (iND); aMExp.MoreTriangle (); aMExp.NextTriangle ()) 
-    {
-      aMExp.TriangleVertices (x1,y1,z1,x2,y2,z2,x3,y3,z3);
-      p1.SetCoord(x1,y1,z1);
-      p2.SetCoord(x2,y2,z2);
-      p3.SetCoord(x3,y3,z3);
-      
-      if ((!(p1.IsEqual(p2,0.0))) && (!(p1.IsEqual(p3,0.0))))
-      {
-        Vertex1 = BRepBuilderAPI_MakeVertex(p1);
-        Vertex2 = BRepBuilderAPI_MakeVertex(p2);
-        Vertex3 = BRepBuilderAPI_MakeVertex(p3);
-        
-        AktWire = BRepBuilderAPI_MakePolygon( Vertex1, Vertex2, Vertex3, Standard_True);
-        
-        if( !AktWire.IsNull())
-        {
-          AktFace = BRepBuilderAPI_MakeFace( AktWire);
-          if(!AktFace.IsNull())
-            BuildTool.Add( aComp, AktFace );
+    Handle(WfObjMesh_Mesh) aWFOBJMesh = RWWfObj::ReadFile(aFile);
+    Standard_Integer NumberDomains = aWFOBJMesh->NbDomains();
+    Standard_Integer iND;
+    gp_XYZ p1, p2, p3;
+    TopoDS_Vertex Vertex1, Vertex2, Vertex3;
+    TopoDS_Face AktFace;
+    TopoDS_Wire AktWire;
+    BRepBuilderAPI_Sewing aSewingTool;
+    Standard_Real x1, y1, z1;
+    Standard_Real x2, y2, z2;
+    Standard_Real x3, y3, z3;
+
+    aSewingTool.Init(1.0e-06, Standard_True);
+
+    TopoDS_Compound aComp;
+    BRep_Builder BuildTool;
+    BuildTool.MakeCompound(aComp);
+
+    WfObjMesh_MeshExplorer aMExp(aWFOBJMesh);
+
+    for (iND = 1; iND <= NumberDomains; iND++) {
+        for (aMExp.InitTriangle(iND); aMExp.MoreTriangle(); aMExp.NextTriangle()) {
+            aMExp.TriangleVertices(x1, y1, z1, x2, y2, z2, x3, y3, z3);
+            p1.SetCoord(x1, y1, z1);
+            p2.SetCoord(x2, y2, z2);
+            p3.SetCoord(x3, y3, z3);
+
+            if ((!(p1.IsEqual(p2, 0.0))) && (!(p1.IsEqual(p3, 0.0)))) {
+                Vertex1 = BRepBuilderAPI_MakeVertex(p1);
+                Vertex2 = BRepBuilderAPI_MakeVertex(p2);
+                Vertex3 = BRepBuilderAPI_MakeVertex(p3);
+
+                AktWire = BRepBuilderAPI_MakePolygon(Vertex1, Vertex2, Vertex3, Standard_True);
+
+                if (!AktWire.IsNull()) {
+                    AktFace = BRepBuilderAPI_MakeFace(AktWire);
+                    if (!AktFace.IsNull())
+                        BuildTool.Add(aComp, AktFace);
+                }
+            }
         }
-      }
-    }
-  }
-  aSTLMesh->Clear();
+        for (aMExp.InitPolygon(iND); aMExp.MorePolygon(); aMExp.NextPolygon()) {
+            Standard_Integer vertexcount = aMExp.PolygonVertexCount();
 
-  aSewingTool.Load( aComp );
-  aSewingTool.Perform();
-  aShape = aSewingTool.SewedShape();
-  if ( aShape.IsNull() )
-    aShape = aComp;
+            BRepBuilderAPI_MakePolygon PolyWire = BRepBuilderAPI_MakePolygon();
+
+            for (int v = 0; v < vertexcount; v++) {
+                aMExp.PolygonVertex(v, x1, y1, z1);
+                p1.SetCoord(x1, y1, z1);
+                Vertex1 = BRepBuilderAPI_MakeVertex(p1);
+                PolyWire.Add(Vertex1);
+            }
+
+            AktFace = BRepBuilderAPI_MakeFace(PolyWire);
+            if (!AktFace.IsNull())
+                BuildTool.Add(aComp, AktFace);
+        }
+    }
+    aWFOBJMesh->Clear();
+
+    aSewingTool.Load(aComp);
+    aSewingTool.Perform();
+    aShape = aSewingTool.SewedShape();
+    if (aShape.IsNull())
+        aShape = aComp;
 }
 

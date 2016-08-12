@@ -121,7 +121,4 @@ private:
 #undef TCollection_Sequence
 #undef TCollection_Sequence_hxx
 
-
-
-
 #endif // _WfObjMesh_SequenceOfMeshTriangle_HeaderFile

@@ -16,29 +16,18 @@
 class WfObjMesh_MeshTriangle;
 class WfObjMesh_SequenceOfMeshTriangle;
 
-
-
 class WfObjMesh_SequenceNodeOfSequenceOfMeshTriangle : public TCollection_SeqNode
 {
 
 public:
-
-  
     WfObjMesh_SequenceNodeOfSequenceOfMeshTriangle(const Handle(WfObjMesh_MeshTriangle)& I, const TCollection_SeqNodePtr& n, const TCollection_SeqNodePtr& p);
   
-      Handle(WfObjMesh_MeshTriangle)& Value()  const;
+    Handle(WfObjMesh_MeshTriangle)& Value()  const;
 
+    DEFINE_STANDARD_RTTI(WfObjMesh_SequenceNodeOfSequenceOfMeshTriangle)
 
+private:
 
-
-  DEFINE_STANDARD_RTTI(WfObjMesh_SequenceNodeOfSequenceOfMeshTriangle)
-
-protected:
-
-
-
-
-private: 
 
 
   Handle(WfObjMesh_MeshTriangle) myValue;

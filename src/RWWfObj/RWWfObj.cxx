@@ -234,6 +234,14 @@ Handle(WfObjMesh_Mesh) RWWfObj::ReadFile (const OSD_Path& thePath,
 
   rewind(file);
 
+  char * line = NULL;
+  size_t len = 0;
+  ssize_t read;
+  while ((read = getline(&line, &len, file)) != -1 ) {
+    printf("Retrieved line of length %zu : \n", read);
+    printf("%s", line);
+  }
+
   // count the number of lines
   for (ipos = 0; ipos < filesize; ++ipos) {
 	  if (getc(file) == '\n')
@@ -246,8 +254,6 @@ Handle(WfObjMesh_Mesh) RWWfObj::ReadFile (const OSD_Path& thePath,
   // go back to the beginning of the file
   rewind(file);
 
-  // skip header
-  while (getc(file) != '\n') {}
 #ifdef OCCT_DEBUG
   cout << "start mesh\n";
 #endif
@@ -257,7 +263,29 @@ Handle(WfObjMesh_Mesh) RWWfObj::ReadFile (const OSD_Path& thePath,
   // Filter unique vertices to share the nodes of the mesh.
   BRepBuilderAPI_CellFilter uniqueVertices(Precision::Confusion());
   BRepBuilderAPI_VertexInspector inspector(Precision::Confusion());
-  
+
+  while (1) {
+    char c = getc(file);
+    if (c == '\n') continue;
+    if (c == ' ') continue;
+
+    // Skip comments
+    if (c == '#' ) {
+      while (getc(file) != '\n') {}
+      continue;
+    }
+    if (c == 'v') {
+      char x[256]="", y[256]="", z[256]="";
+      if (3 != fscanf(file, "%80s %80s %80s\n", x, y, z)) {
+        break;
+      }
+      gp_XYZ aV (Atof(x), Atof(y), Atof(z));
+      i1 = AddVertex(ReadMesh, uniqueVertices, inspector, aV);
+    }
+  }
+
+
+
   // main reading
   Message_ProgressSentry aPS (theProgInd, "Triangles", 0, (nbTris - 1) * 1.0 / IND_THRESHOLD, 1);
   for (iTri = 0; iTri < nbTris && aPS.More();)

@@ -18,6 +18,7 @@
 
 #include <WfObjMesh_MeshDomain.ixx>
 #include <WfObjMesh_MeshTriangle.hxx>
+#include <WfObjMesh_MeshPolygon.hxx>
 #include <Precision.hxx>
 #include <gp_XYZ.hxx>
 
@@ -58,6 +59,15 @@ WfObjMesh_MeshDomain::WfObjMesh_MeshDomain(const Standard_Real Deflection)
   nbTriangles++;
   return nbTriangles;
 }
+
+Standard_Integer WfObjMesh_MeshDomain::AddPolygon (const Standard_Integer VertexCount, const Standard_Integer * VertexList, const Standard_Real Xn, const Standard_Real Yn, const Standard_Real Zn)
+{
+    const Handle (WfObjMesh_MeshPolygon) poly = new WfObjMesh_MeshPolygon(VertexCount, VertexList, Xn, Yn, Zn);
+    polygonsVertex.Append(poly);
+    nbPolygons ++;
+    return nbPolygons;
+}
+
 
 //=======================================================================
 //function : AddVertex

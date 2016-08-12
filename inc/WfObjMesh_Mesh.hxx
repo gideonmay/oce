@@ -16,6 +16,7 @@ class Standard_NullValue;
 class Standard_NoSuchObject;
 class gp_XYZ;
 class WfObjMesh_SequenceOfMeshTriangle;
+class WfObjMesh_SequenceOfMeshPolygon;
 class TColgp_SequenceOfXYZ;
 
 
@@ -88,6 +89,16 @@ public:
   //! than the number of domains.
   Standard_EXPORT virtual   Standard_Integer NbTriangles (const Standard_Integer DomainIndex)  const;
   
+  //! Cumulative Number of polygons in the mesh.
+      Standard_Integer NbPolygons()  const;
+
+  //! Number of  polygons   in  the  domain   of  range
+  //! <DomainIndex>.
+  //! Raised if <DomainIndex> is lower than 1 or greater
+  //! than the number of domains.
+  Standard_EXPORT virtual   Standard_Integer NbPolygons (const Standard_Integer DomainIndex)  const;
+
+
   //! Cumulative Number of vertices in the mesh.
     virtual   Standard_Integer NbVertices()  const;
   
@@ -102,7 +113,13 @@ public:
   //! Raised if <DomainIndex> is lower than 1 or greater
   //! than the number of domains.
   Standard_EXPORT virtual  const  WfObjMesh_SequenceOfMeshTriangle& Triangles (const Standard_Integer DomainIndex = 1)  const;
-  
+
+    //! Returns the set of triangle   of   the  mesh domain   of   range
+    //! <DomainIndex>.
+    //! Raised if <DomainIndex> is lower than 1 or greater
+    //! than the number of domains.
+    Standard_EXPORT virtual  const  WfObjMesh_SequenceOfMeshPolygon& Polygons (const Standard_Integer DomainIndex = 1)  const;
+
   //! Returns  the coordinates   of the  vertices of the
   //! mesh domain   of range <DomainIndex>.   {XV1, YV1,
   //! ZV1, XV2, YV2, ZV2, XV3,.....}
@@ -119,6 +136,7 @@ protected:
 
 
   Standard_Integer nbTriangles;
+    Standard_Integer nbPolygons;
   Standard_Integer nbVertices;
   WfObjMesh_SequenceOfMeshDomain domains;
   gp_XYZ xyzmax;
