@@ -21,8 +21,7 @@
 //warning  : 
 //=======================================================================
 
-inline Standard_Boolean WfObjMesh_Mesh::IsEmpty() const 
-{return domains.IsEmpty ();}
+inline Standard_Boolean WfObjMesh_Mesh::IsEmpty() const { return domains.IsEmpty(); }
 
 //=======================================================================
 //function : NbDomains
@@ -30,8 +29,7 @@ inline Standard_Boolean WfObjMesh_Mesh::IsEmpty() const
 //warning  : 
 //=======================================================================
 
-inline Standard_Integer WfObjMesh_Mesh::NbDomains() const 
-{ return domains.Length ();}
+inline Standard_Integer WfObjMesh_Mesh::NbDomains() const { return domains.Length(); }
 
 //=======================================================================
 //function : NbTriangles
@@ -39,8 +37,7 @@ inline Standard_Integer WfObjMesh_Mesh::NbDomains() const
 //warning  : 
 //=======================================================================
 
-inline Standard_Integer WfObjMesh_Mesh::NbTriangles() const 
-{return nbTriangles;}
+inline Standard_Integer WfObjMesh_Mesh::NbTriangles() const { return nbTriangles; }
 
 //=======================================================================
 //function : NbPolygons
@@ -48,8 +45,7 @@ inline Standard_Integer WfObjMesh_Mesh::NbTriangles() const
 //warning  :
 //=======================================================================
 
-inline Standard_Integer WfObjMesh_Mesh::NbPolygons() const
-{return nbPolygons;}
+inline Standard_Integer WfObjMesh_Mesh::NbPolygons() const { return nbPolygons; }
 
 //=======================================================================
 //function : NbVertices
@@ -57,8 +53,7 @@ inline Standard_Integer WfObjMesh_Mesh::NbPolygons() const
 //warning  : 
 //=======================================================================
 
-inline Standard_Integer WfObjMesh_Mesh::NbVertices() const 
-{return nbVertices;}
+inline Standard_Integer WfObjMesh_Mesh::NbVertices() const { return nbVertices; }
 
 
 

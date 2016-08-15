@@ -50,8 +50,11 @@ public:
   //! triangle.  Returns  the  range of  the triangle in
   //! the current domain.
   Standard_EXPORT virtual   Standard_Integer AddTriangle (const Standard_Integer V1, const Standard_Integer V2, const Standard_Integer V3, const Standard_Real Xn, const Standard_Real Yn, const Standard_Real Zn) ;
-  
-  //! Returns the  range  of the  vertex in the  current
+
+
+    Standard_EXPORT virtual   Standard_Integer AddPolygon(const Standard_Integer VertexCount, const Standard_Integer * VertexList, const Standard_Real Xn, const Standard_Real Yn, const Standard_Real Zn) ;
+
+    //! Returns the  range  of the  vertex in the  current
   //! domain.
   Standard_EXPORT virtual   Standard_Integer AddVertex (const Standard_Real X, const Standard_Real Y, const Standard_Real Z) ;
   

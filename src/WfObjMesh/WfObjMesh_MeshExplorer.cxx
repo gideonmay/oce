@@ -133,8 +133,7 @@ Standard_Integer WfObjMesh_MeshExplorer::PolygonVertexCount() {
     return poly->GetVertexCount();
 }
 
-void WfObjMesh_MeshExplorer::PolygonVertex(Standard_Integer VI, Standard_Real &X, Standard_Real &Y, Standard_Real &Z)
-{
+void WfObjMesh_MeshExplorer::PolygonVertex(Standard_Integer VI, Standard_Real &X, Standard_Real &Y, Standard_Real &Z) {
     const Handle (WfObjMesh_MeshPolygon) poly = polygonsdef.Value(polygonIndex);
 
     Standard_Integer v1 = poly->GetVertex(VI);
@@ -143,7 +142,7 @@ void WfObjMesh_MeshExplorer::PolygonVertex(Standard_Integer VI, Standard_Real &X
     Z = (trianglesVertex.Value(v1)).Z();
 }
 
-void WfObjMesh_MeshExplorer::PolygonOrientation(Standard_Real &Xn, Standard_Real &Yn, Standard_Real &Zn)  {
+void WfObjMesh_MeshExplorer::PolygonOrientation(Standard_Real &Xn, Standard_Real &Yn, Standard_Real &Zn) {
     if (polygonIndex <= nbPolygons) {
         const Handle (WfObjMesh_MeshPolygon) poly = polygonsdef.Value(polygonIndex);
         poly->GetOrientation(xn, yn, zn);

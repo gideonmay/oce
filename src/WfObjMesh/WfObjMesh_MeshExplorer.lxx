@@ -22,8 +22,6 @@
 //warning  : 
 //=======================================================================
 
-inline Standard_Boolean WfObjMesh_MeshExplorer::MoreTriangle() const 
-{ return triangleIndex <= nbTriangles; }
+inline Standard_Boolean WfObjMesh_MeshExplorer::MoreTriangle() const { return triangleIndex <= nbTriangles; }
 
-inline Standard_Boolean WfObjMesh_MeshExplorer::MorePolygon() const
-{ return polygonIndex <= nbPolygons; }
+inline Standard_Boolean WfObjMesh_MeshExplorer::MorePolygon() const { return polygonIndex <= nbPolygons; }

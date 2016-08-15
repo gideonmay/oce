@@ -27,7 +27,7 @@
 //=======================================================================
 
 WfObjMesh_MeshTriangle::WfObjMesh_MeshTriangle()
-     : MyV1 (0), MyV2 (0), MyV3 (0), MyXn (0.0), MyYn (0.0), MyZn (0.0) { }
+        : MyV1(0), MyV2(0), MyV3(0), MyXn(0.0), MyYn(0.0), MyZn(0.0) {}
 
 
 //=======================================================================
@@ -36,13 +36,13 @@ WfObjMesh_MeshTriangle::WfObjMesh_MeshTriangle()
 //warning  : 
 //=======================================================================
 
-     WfObjMesh_MeshTriangle::WfObjMesh_MeshTriangle(const Standard_Integer V1, 
-						const Standard_Integer V2, 
-						const Standard_Integer V3, 
-						const Standard_Real Xn, 
-						const Standard_Real Yn, 
-						const Standard_Real Zn)
-: MyV1 (V1), MyV2 (V2), MyV3 (V3), MyXn (Xn), MyYn (Yn), MyZn (Zn) { }
+WfObjMesh_MeshTriangle::WfObjMesh_MeshTriangle(const Standard_Integer V1,
+                                               const Standard_Integer V2,
+                                               const Standard_Integer V3,
+                                               const Standard_Real Xn,
+                                               const Standard_Real Yn,
+                                               const Standard_Real Zn)
+        : MyV1(V1), MyV2(V2), MyV3(V3), MyXn(Xn), MyYn(Yn), MyZn(Zn) {}
 
 
 //=======================================================================
@@ -51,19 +51,18 @@ WfObjMesh_MeshTriangle::WfObjMesh_MeshTriangle()
 //warning  : 
 //=======================================================================
 
-void WfObjMesh_MeshTriangle::GetVertexAndOrientation(Standard_Integer& V1, 
-						   Standard_Integer& V2, 
-						   Standard_Integer& V3, 
-						   Standard_Real& Xn, 
-						   Standard_Real& Yn, 
-						   Standard_Real& Zn) const 
-{
-  V1 = MyV1;
-  V2 = MyV2;
-  V3 = MyV3;
-  Xn = MyXn;
-  Yn = MyYn;
-  Zn = MyZn;
+void WfObjMesh_MeshTriangle::GetVertexAndOrientation(Standard_Integer &V1,
+                                                     Standard_Integer &V2,
+                                                     Standard_Integer &V3,
+                                                     Standard_Real &Xn,
+                                                     Standard_Real &Yn,
+                                                     Standard_Real &Zn) const {
+    V1 = MyV1;
+    V2 = MyV2;
+    V3 = MyV3;
+    Xn = MyXn;
+    Yn = MyYn;
+    Zn = MyZn;
 }
 
 //=======================================================================
@@ -72,16 +71,15 @@ void WfObjMesh_MeshTriangle::GetVertexAndOrientation(Standard_Integer& V1,
 //warning  : 
 //=======================================================================
 
-void WfObjMesh_MeshTriangle::SetVertexAndOrientation(const Standard_Integer V1, const Standard_Integer V2, 
-						   const Standard_Integer V3, const Standard_Real Xn, 
-						   const Standard_Real Yn, const Standard_Real Zn)
-{
-  MyV1 = V1;
-  MyV2 = V2;
-  MyV3 = V3;
-  MyXn = Xn;
-  MyYn = Yn;
-  MyZn = Zn;
+void WfObjMesh_MeshTriangle::SetVertexAndOrientation(const Standard_Integer V1, const Standard_Integer V2,
+                                                     const Standard_Integer V3, const Standard_Real Xn,
+                                                     const Standard_Real Yn, const Standard_Real Zn) {
+    MyV1 = V1;
+    MyV2 = V2;
+    MyV3 = V3;
+    MyXn = Xn;
+    MyYn = Yn;
+    MyZn = Zn;
 }
 
 //=======================================================================
@@ -90,11 +88,10 @@ void WfObjMesh_MeshTriangle::SetVertexAndOrientation(const Standard_Integer V1, 
 //warning  : 
 //=======================================================================
 
-void WfObjMesh_MeshTriangle::GetVertex(Standard_Integer& V1, Standard_Integer& V2, Standard_Integer& V3) const 
-{
-  V1 = MyV1;
-  V2 = MyV2;
-  V3 = MyV3;
+void WfObjMesh_MeshTriangle::GetVertex(Standard_Integer &V1, Standard_Integer &V2, Standard_Integer &V3) const {
+    V1 = MyV1;
+    V2 = MyV2;
+    V3 = MyV3;
 }
 
 //=======================================================================
@@ -103,11 +100,11 @@ void WfObjMesh_MeshTriangle::GetVertex(Standard_Integer& V1, Standard_Integer& V
 //warning  : 
 //=======================================================================
 
-void WfObjMesh_MeshTriangle::SetVertex(const Standard_Integer V1, const Standard_Integer V2, const Standard_Integer V3)
-{
-  MyV1 = V1;
-  MyV2 = V2;
-  MyV3 = V3;
+void
+WfObjMesh_MeshTriangle::SetVertex(const Standard_Integer V1, const Standard_Integer V2, const Standard_Integer V3) {
+    MyV1 = V1;
+    MyV2 = V2;
+    MyV3 = V3;
 }
 
 

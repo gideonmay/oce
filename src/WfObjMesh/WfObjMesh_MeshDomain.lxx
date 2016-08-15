@@ -22,8 +22,7 @@
 //warning  : 
 //=======================================================================
 
-inline Standard_Real WfObjMesh_MeshDomain::Deflection() const 
-{ return deflection; }
+inline Standard_Real WfObjMesh_MeshDomain::Deflection() const { return deflection; }
 
 //=======================================================================
 //function : NbTriangles
@@ -31,8 +30,7 @@ inline Standard_Real WfObjMesh_MeshDomain::Deflection() const
 //warning  : 
 //=======================================================================
 
-inline Standard_Integer WfObjMesh_MeshDomain::NbTriangles() const 
-{ return  nbTriangles; }
+inline Standard_Integer WfObjMesh_MeshDomain::NbTriangles() const { return nbTriangles; }
 
 //=======================================================================
 //function : NbPolygons
@@ -40,8 +38,7 @@ inline Standard_Integer WfObjMesh_MeshDomain::NbTriangles() const
 //warning  :
 //=======================================================================
 
-inline Standard_Integer WfObjMesh_MeshDomain::NbPolygons() const
-{ return  nbPolygons; }
+inline Standard_Integer WfObjMesh_MeshDomain::NbPolygons() const { return nbPolygons; }
 
 //=======================================================================
 //function : NbVertices
@@ -49,8 +46,7 @@ inline Standard_Integer WfObjMesh_MeshDomain::NbPolygons() const
 //warning  : 
 //=======================================================================
 
-inline Standard_Integer WfObjMesh_MeshDomain::NbVertices() const 
-{ return  nbVertices; }
+inline Standard_Integer WfObjMesh_MeshDomain::NbVertices() const { return nbVertices; }
 
 //=======================================================================
 //function : Triangles
@@ -58,8 +54,7 @@ inline Standard_Integer WfObjMesh_MeshDomain::NbVertices() const
 //warning  : 
 //=======================================================================
 
-inline const WfObjMesh_SequenceOfMeshTriangle& WfObjMesh_MeshDomain::Triangles() const 
-{ return trianglesVertex; }
+inline const WfObjMesh_SequenceOfMeshTriangle &WfObjMesh_MeshDomain::Triangles() const { return trianglesVertex; }
 
 //=======================================================================
 //function : Polygons
@@ -67,8 +62,7 @@ inline const WfObjMesh_SequenceOfMeshTriangle& WfObjMesh_MeshDomain::Triangles()
 //warning  :
 //=======================================================================
 
-inline const WfObjMesh_SequenceOfMeshPolygon& WfObjMesh_MeshDomain::Polygons() const
-{ return polygonsVertex; }
+inline const WfObjMesh_SequenceOfMeshPolygon &WfObjMesh_MeshDomain::Polygons() const { return polygonsVertex; }
 
 //=======================================================================
 //function : Vertices
@@ -76,6 +70,5 @@ inline const WfObjMesh_SequenceOfMeshPolygon& WfObjMesh_MeshDomain::Polygons() c
 //warning  : 
 //=======================================================================
 
- inline const TColgp_SequenceOfXYZ& WfObjMesh_MeshDomain::Vertices() const 
-{ return vertexCoords; }
+inline const TColgp_SequenceOfXYZ &WfObjMesh_MeshDomain::Vertices() const { return vertexCoords; }
 

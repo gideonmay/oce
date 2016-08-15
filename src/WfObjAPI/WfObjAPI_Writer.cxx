@@ -22,40 +22,37 @@
 #define MAX2(X, Y)      (  Abs(X) > Abs(Y)? Abs(X) : Abs(Y) )
 #define MAX3(X, Y, Z)   ( MAX2 ( MAX2(X,Y) , Z) )
 
-WfObjAPI_Writer::WfObjAPI_Writer()
-{
-  theWfObjMesh = new WfObjMesh_Mesh;
-  theDeflection = 0.01;
-  theRelativeMode = Standard_True;
-  theCoefficient = 0.001;
+WfObjAPI_Writer::WfObjAPI_Writer() {
+    theWfObjMesh = new WfObjMesh_Mesh;
+    theDeflection = 0.01;
+    theRelativeMode = Standard_True;
+    theCoefficient = 0.001;
 }
 
-void WfObjAPI_Writer::SetDeflection(const Standard_Real aDeflection) 
-{
-  theDeflection = aDeflection;
-}
-void WfObjAPI_Writer::SetCoefficient(const Standard_Real aCoefficient) 
-{
-  theCoefficient = aCoefficient;
+void WfObjAPI_Writer::SetDeflection(const Standard_Real aDeflection) {
+    theDeflection = aDeflection;
 }
 
-Standard_Boolean& WfObjAPI_Writer::RelativeMode() 
-{
-  return theRelativeMode;
+void WfObjAPI_Writer::SetCoefficient(const Standard_Real aCoefficient) {
+    theCoefficient = aCoefficient;
 }
 
-void WfObjAPI_Writer::Write(const TopoDS_Shape& theShape, const Standard_CString theFileName, const Standard_Boolean theInParallel) 
-{
-  OSD_Path aFile(theFileName);
-  if (theRelativeMode) {
-    Standard_Real aXmin, aYmin, aZmin, aXmax, aYmax, aZmax;
-    Bnd_Box Total;
-    BRepBndLib::Add(theShape, Total);
-    Total.Get(aXmin, aYmin, aZmin, aXmax, aYmax, aZmax);
-    theDeflection = MAX3(aXmax-aXmin , aYmax-aYmin , aZmax-aZmin)*theCoefficient;
-  }
-  WfObjTransfer::BuildIncrementalMesh(theShape, theDeflection, theInParallel, theWfObjMesh);
-  // Write the built mesh
-  RWWfObj::WriteFile(theWfObjMesh, aFile);
+Standard_Boolean &WfObjAPI_Writer::RelativeMode() {
+    return theRelativeMode;
+}
+
+void WfObjAPI_Writer::Write(const TopoDS_Shape &theShape, const Standard_CString theFileName,
+                            const Standard_Boolean theInParallel) {
+    OSD_Path aFile(theFileName);
+    if (theRelativeMode) {
+        Standard_Real aXmin, aYmin, aZmin, aXmax, aYmax, aZmax;
+        Bnd_Box Total;
+        BRepBndLib::Add(theShape, Total);
+        Total.Get(aXmin, aYmin, aZmin, aXmax, aYmax, aZmax);
+        theDeflection = MAX3(aXmax - aXmin, aYmax - aYmin, aZmax - aZmin) * theCoefficient;
+    }
+    WfObjTransfer::BuildIncrementalMesh(theShape, theDeflection, theInParallel, theWfObjMesh);
+    // Write the built mesh
+    RWWfObj::WriteFile(theWfObjMesh, aFile);
 }
 

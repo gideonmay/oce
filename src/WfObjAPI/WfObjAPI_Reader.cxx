@@ -80,12 +80,16 @@ void WfObjAPI_Reader::Read(TopoDS_Shape &aShape, const Standard_CString aFileNam
 
             BRepBuilderAPI_MakePolygon PolyWire = BRepBuilderAPI_MakePolygon();
 
+//            fprintf(stderr, "WfObjAPI_Reader: vertexcount [%d]\n", vertexcount);
+
             for (int v = 0; v < vertexcount; v++) {
                 aMExp.PolygonVertex(v, x1, y1, z1);
                 p1.SetCoord(x1, y1, z1);
+//                fprintf(stderr, "WfObjAPI_Reader: polyv [%d] : %f %f %f\n", v, p1.X(), p1.Y(), p1.Z());
                 Vertex1 = BRepBuilderAPI_MakeVertex(p1);
                 PolyWire.Add(Vertex1);
             }
+            PolyWire.Close();
 
             AktFace = BRepBuilderAPI_MakeFace(PolyWire);
             if (!AktFace.IsNull())
