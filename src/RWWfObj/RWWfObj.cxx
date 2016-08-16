@@ -129,7 +129,7 @@ Standard_Boolean RWWfObj::WriteFile(const Handle(WfObjMesh_Mesh) &theMesh,
                                     const Handle(Message_ProgressIndicator) &theProgInd) {
     OSD_File theFile(thePath);
     theFile.Build(OSD_WriteOnly, OSD_Protection());
-    TCollection_AsciiString buf("solid\n");
+    TCollection_AsciiString buf("# OCC Mesh\n");
     theFile.Write(buf, buf.Length());
     buf.Clear();
 
@@ -142,42 +142,35 @@ Standard_Boolean RWWfObj::WriteFile(const Handle(WfObjMesh_Mesh) &theMesh,
     Standard_Integer aNbDomains = theMesh->NbDomains();
     Message_ProgressSentry aDPS(theProgInd, "Mesh domains", 0, aNbDomains, 1);
     WfObjMesh_MeshExplorer aMexp(theMesh);
+
+    Standard_Integer vertexIndex = 1;
     for (Standard_Integer nbd = 1; nbd <= aNbDomains && aDPS.More(); nbd++, aDPS.Next()) {
         // create progress sentry for triangles in domain
         Message_ProgressSentry aTPS(theProgInd, "Triangles", 0,
                                     theMesh->NbTriangles(nbd), IND_THRESHOLD);
         Standard_Integer aTriangleInd = 0;
+
         for (aMexp.InitTriangle(nbd); aMexp.MoreTriangle(); aMexp.NextTriangle()) {
             aMexp.TriangleVertices(x1, y1, z1, x2, y2, z2, x3, y3, z3);
 
-//      Standard_Real x, y, z;
-//      aMexp.TriangleOrientation (x,y,z);
+            Sprintf(sval, "v %12e %12e %12e\n", x1, y1, z1);
+            buf += sval;
 
-            gp_XYZ Vect12((x2 - x1), (y2 - y1), (z2 - z1));
-            gp_XYZ Vect23((x3 - x2), (y3 - y2), (z3 - z2));
-            gp_XYZ Vnorm = Vect12 ^Vect23;
-            Standard_Real Vmodul = Vnorm.Modulus();
-            if (Vmodul > gp::Resolution()) {
-                Vnorm.Divide(Vmodul);
-            } else {
-                // si Vnorm est quasi-nul, on le charge a 0 explicitement
-                Vnorm.SetCoord(0., 0., 0.);
-            }
-            Sprintf(sval,
-                    " facet normal % 12e % 12e % 12e\n"
-                            "   outer loop\n"
-                            "     vertex % 12e % 12e % 12e\n"
-                            "     vertex % 12e % 12e % 12e\n"
-                            "     vertex % 12e % 12e % 12e\n"
-                            "   endloop\n"
-                            " endfacet\n",
-                    Vnorm.X(), Vnorm.Y(), Vnorm.Z(),
-                    x1, y1, z1,
-                    x2, y2, z2,
-                    x3, y3, z3);
+            Sprintf(sval, "v %12e %12e %12e\n", x2, y2, z2);
+            buf += sval;
+
+            Sprintf(sval, "v %12e %12e %12e\n", x3, y3, z3);
+            buf += sval;
+
+            theFile.Write(buf, buf.Length());
+            buf.Clear();
+
+            Sprintf(sval, "f %d %d %d\n", vertexIndex, vertexIndex + 1, vertexIndex + 2);
             buf += sval;
             theFile.Write(buf, buf.Length());
             buf.Clear();
+
+            vertexIndex += 3;
 
             // update progress only per 1k triangles
             if (++aTriangleInd % IND_THRESHOLD == 0) {
@@ -188,9 +181,6 @@ Standard_Boolean RWWfObj::WriteFile(const Handle(WfObjMesh_Mesh) &theMesh,
         }
     }
 
-    buf += "endsolid\n";
-    theFile.Write(buf, buf.Length());
-    buf.Clear();
     theFile.Close();
     Standard_Boolean isInterrupted = !aDPS.More();
     return !isInterrupted;
