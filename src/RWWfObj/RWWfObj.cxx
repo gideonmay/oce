@@ -225,11 +225,9 @@ Handle(WfObjMesh_Mesh) RWWfObj::ReadFile(const OSD_Path &thePath,
     rewind(file);
 
     char *line = NULL;
-    size_t len = 0;
+    size_t line_len = 0;
     ssize_t read;
-    while ((read = getline(&line, &len, file)) != -1) {
-//        printf("Retrieved line of length %zu : \n", read);
-//        printf("%s", line);
+    while ((read = getline(&line, &line_len, file)) != -1) {
         if (read < 3) continue;
         if (line[0] == 'f') {
             nbPolys++;
@@ -241,22 +239,6 @@ Handle(WfObjMesh_Mesh) RWWfObj::ReadFile(const OSD_Path &thePath,
 
     // go back to the beginning of the file
     rewind(file);
-
-#if 0
-    // count the number of lines
-    for (ipos = 0; ipos < filesize; ++ipos) {
-        char c = getc(file);
-        if (c == '\n')
-          nbLines++;
-
-    }
-    // go back to the beginning of the file
-    rewind(file);
-
-    // compute number of triangles
-    nbTris = (nbLines / ASCII_LINES_PER_FACET);
-#endif
-
 
 #ifdef OCCT_DEBUG
     cout << "start mesh\n";
@@ -273,11 +255,9 @@ Handle(WfObjMesh_Mesh) RWWfObj::ReadFile(const OSD_Path &thePath,
     BRepBuilderAPI_VertexInspector inspector(Precision::Confusion());
 
     int vcount = 0;
+    int fcount = 0;
     Message_ProgressSentry aPS (theProgInd, "Polygons", 0, (nbPolys - 1) * 1.0 / IND_THRESHOLD, 1);
-    while ((read = getline(&line, &len, file)) != -1) {
-//        printf("Retrieved line of length %zu : \n", read);
-//        printf("%s", line);
-
+    while ((read = getline(&line, &line_len, file)) != -1 && aPS.More()) {
         if (read < 2) continue;
 
         // Skip comments
@@ -295,7 +275,6 @@ Handle(WfObjMesh_Mesh) RWWfObj::ReadFile(const OSD_Path &thePath,
             gp_XYZ aV(Atof(x), Atof(y), Atof(z));
             int i = AddVertex(ReadMesh, uniqueVertices, inspector, aV);
             vindex[vcount] = i;
-//            fprintf(stderr, "Found vertex[%d] => [%d] : %s %s %s\n", vcount, vindex[vcount], x, y, z);
             vcount ++;
             continue;
         }
@@ -305,79 +284,30 @@ Handle(WfObjMesh_Mesh) RWWfObj::ReadFile(const OSD_Path &thePath,
             Standard_Integer vertex_count = 0;
             char * cp = line + 2;
             while (* cp != '\n') {
-//                fprintf(stderr, "*cp = %s %c\n", cp, cp[0]);
-                int f = atoi(cp);
-                f = f - 1; // Fix start index from 1 to 0
-//                fprintf(stderr, "Face idx : %d\n", f);
-                vertex_list[vertex_count ++] = vindex[f];
+                int vi = atoi(cp);
+                vi = vi - 1; // Fix start index from 1 to 0
+                vertex_list[vertex_count ++] = vindex[vi];
 
+                // Skip over rest of v/n/t
                 while (* cp && * cp != ' ') cp ++;
+                // Skip over blank spaces
                 while (* cp && (*cp == ' ' || *cp == '\n' || *cp == '\r')) cp ++;
                 if (* cp == 0) break;
             }
-//            fprintf(stderr, "vertex_count = %d ", vertex_count);
-//            for (int v=0; v<vertex_count; v++) {
-//                fprintf(stderr, " [%d] %d", v, vertex_list[v]);
-//            }
-//            fprintf(stderr, "\n");
             gp_XYZ aN (0, 0, 0);
             ReadMesh->AddPolygon (vertex_count, vertex_list, aN.X(), aN.Y(), aN.Z());
+
+            if (++fcount % IND_THRESHOLD == 0) aPS.Next();
             continue;
         }
     }
 
     free(vindex);
-#if 0
-    // main reading
-    Message_ProgressSentry aPS (theProgInd, "Triangles", 0, (nbTris - 1) * 1.0 / IND_THRESHOLD, 1);
-    for (iTri = 0; iTri < nbTris && aPS.More();)
-    {
-      char x[256]="", y[256]="", z[256]="";
-
-      // reading the facet normal
-      if (3 != fscanf(file,"%*s %*s %80s %80s %80s\n", x, y, z))
-        break; // error should be properly reported
-      gp_XYZ aN (Atof(x), Atof(y), Atof(z));
-
-      // skip the keywords "outer loop"
-      if (0 != fscanf(file,"%*s %*s"))
-        break;
-
-      // reading vertex
-      if (3 != fscanf(file,"%*s %80s %80s %80s\n", x, y, z))
-        break; // error should be properly reported
-      gp_XYZ aV1 (Atof(x), Atof(y), Atof(z));
-      if (3 != fscanf(file,"%*s %80s %80s %80s\n", x, y, z))
-        break; // error should be properly reported
-      gp_XYZ aV2 (Atof(x), Atof(y), Atof(z));
-      if (3 != fscanf(file,"%*s %80s %80s %80s\n", x, y, z))
-        break; // error should be properly reported
-      gp_XYZ aV3 (Atof(x), Atof(y), Atof(z));
-
-      // here the facet must be built and put in the mesh datastructure
-
-      i1 = AddVertex(ReadMesh, uniqueVertices, inspector, aV1);
-      i2 = AddVertex(ReadMesh, uniqueVertices, inspector, aV2);
-      i3 = AddVertex(ReadMesh, uniqueVertices, inspector, aV3);
-      ReadMesh->AddTriangle (i1, i2, i3, aN.X(), aN.Y(), aN.Z());
-
-      // skip the keywords "endloop"
-      if (0 != fscanf(file,"%*s"))
-        break;
-
-      // skip the keywords "endfacet"
-      if (0 != fscanf(file,"%*s"))
-        break;
-
-      // update progress only per 1k triangles
-      if (++iTri % IND_THRESHOLD == 0)
-        aPS.Next();
-    }
-#endif
+    fclose(file);
+    free(line);
 
 #ifdef OCCT_DEBUG
     cout << "end mesh\n";
 #endif
-    fclose(file);
    return ReadMesh;
 }
