@@ -1433,7 +1433,7 @@ void BRepOffset_Offset::Init(const TopoDS_Vertex&        Vertex,
 
 
 #ifdef OCCT_DEBUG
-  char* name = new char[100];
+  char name[400];
   if (Affich) {
     NbOFFSET++;
     
@@ -1529,7 +1529,7 @@ void BRepOffset_Offset::Init(const TopoDS_Vertex&        Vertex,
       CO++;
     }
 #endif
-    delete[] name;
+//    delete[] name;
 #endif
 
     Handle(Geom2d_Curve) PCurve = GeomProjLib::Curve2d(C, S);
