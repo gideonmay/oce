@@ -77,6 +77,8 @@ extern "C" {
 #include <unistd.h>
 #include <sched.h>
 
+#ifndef CLOCK_REALTIME
+
 typedef enum {
     CLOCK_REALTIME,
     CLOCK_MONOTONIC,
@@ -94,7 +96,7 @@ int clock_gettime(clockid_t clk_id, struct timespec *tp) {
 
     uint64_t start, end, delta, nano;
 
-  	
+
     int retval = -1;
 	switch (clk_id) {
 	    case CLOCK_REALTIME:
@@ -136,6 +138,7 @@ int clock_gettime(clockid_t clk_id, struct timespec *tp) {
 	}
 	return retval;
 }
+#endif // CLOCK_REALTIME
 	
 #endif // __APPLE__
 #endif // _GETTIME_H
